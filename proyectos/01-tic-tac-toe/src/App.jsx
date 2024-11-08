@@ -1,4 +1,4 @@
-import { useState , useEffect } from "react";
+import { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
 import { Square } from "./components/Square";
 import { WinnerModal } from "./components/WinnerModal";
@@ -47,10 +47,9 @@ function App() {
     } else if (checkEndGame(newBoard)) {
       setWinner(false);
     }
-
   };
   useEffect(() => {
-    console.log('useEffect');
+    console.log("useEffect");
   }, []);
   return (
     <main className="board">
