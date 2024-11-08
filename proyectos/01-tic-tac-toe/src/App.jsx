@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import confetti from "canvas-confetti";
 import { Square } from "./components/Square";
 import { WinnerModal } from "./components/WinnerModal";
@@ -9,7 +9,7 @@ function App() {
   const [board, setBoard] = useState(() => {
     //si hay partida guardada, la recuperamos
     const boardFromStorage = window.localStorage.getItem("board");
-    return boardFromStorage
+    return boardFromStorage && Array.isArray(JSON.parse(boardFromStorage))
       ? JSON.parse(boardFromStorage)
       : Array(9).fill(null);
   });
@@ -47,7 +47,11 @@ function App() {
     } else if (checkEndGame(newBoard)) {
       setWinner(false);
     }
+
   };
+  useEffect(() => {
+    console.log('useEffect');
+  }, []);
   return (
     <main className="board">
       <h1>Tic Tac Toe</h1>
