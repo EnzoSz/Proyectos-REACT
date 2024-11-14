@@ -1,9 +1,9 @@
-import noResults from "../mocks/no-results.json";
+// import noResults from "../mocks/no-results.json";
 export const MoviesList = ({ movies }) => {
   return (
-    <ul>
+    <ul className="movies">
       {movies.map((movie) => (
-        <li key={movie.id}>
+        <li className="movie" key={movie.id}>
           <h1>{movie.title}</h1>
           <p>{movie.year}</p>
           <img src={movie.poster} alt={movie.Title} />
@@ -14,11 +14,11 @@ export const MoviesList = ({ movies }) => {
 };
 
 export const NoResults = () => {
-  return <h1>{noResults.Error}</h1>;
+  return <p>No se encontraron resultados</p>;
 };
 
 export const Movies = ({ movies }) => {
   
-  const hasMovies = movies.length > 0;
+  const hasMovies = movies?.length > 0;
   return hasMovies ? <MoviesList movies={movies} /> : <NoResults />;
 };

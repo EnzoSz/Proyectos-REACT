@@ -2,48 +2,38 @@ import { useState, useEffect } from "react";
 import "./App.css";
 // import { useRef } from "react"; // te permite crear una referencia mutable que puedes actualizar
 import { Movies } from "./components/Movies";
-import { useMovies } from "./hooks/useMovies";
+import { useMovies, useSearch } from "./hooks";
 
 function App() {
-  const { movies } = useMovies();
-  const [query, setQuery] = useState();
-  const [error, setError] = useState();
+  const [sort , setSort] = useState(false);
+  const [search, setSearch, error] = useSearch("");
+  const { movies, getMovies, loading } = useMovies({ search, sort });
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ query });
+    getMovies(search);
   };
 
   const handleChange = (e) => {
-    setQuery(e.target.value);
+    setSearch(e.target.value);
   };
-  useEffect(() => {
-    if (!query) {
-      setError("No se puede buscar una pelicula vacia");
-      return;
-    };
-    if (query.match(/^\d+$/)) {
-      setError("No se puede buscar un numero");
-      return;
-    }
-    if (query.length < 3) {
-      setError("La busqueda debe tener al menos 3 caracteres");
-      return;
-    }
-    setError(null);
-  }, [query]);
+
+  const handleSort = () => {
+    setSort(!sort);
+  }
   return (
     <>
       <header className="header">
         <h1>Buscador de peliculas</h1>
         <form action="" className="form" onSubmit={handleSubmit}>
           <input
-            value={query}
+            value={search}
             onChange={handleChange}
             name="query"
             type="text"
             placeholder="Avengers, Spiderman, Ironman..."
           />
+          <input type="checkbox" onChange={handleSort} checked={sort} />
           <button type="submit">Buscar</button>
         </form>
         {error && <p style={{ color: "red" }}>{error}</p>}
@@ -51,7 +41,11 @@ function App() {
 
       <main>
         <h2>Resultados</h2>
-        <Movies movies={movies} />
+        {
+          loading
+            ? <p>Cargando...</p>
+            : <Movies movies={movies} />
+        }
       </main>
     </>
   );

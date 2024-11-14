@@ -12,4 +12,35 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+}
+
+.movies {
+    list-style: none;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin:0;
+    padding: 0;
+}
+
+.movie {
+
+    text-align: center;
+}
+
+.movie h1 {
+    margin: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+.movie p {
+    margin: 0;
+    margin-bottom: 0.5rem;
+}
+
+.movie img {
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
 }
