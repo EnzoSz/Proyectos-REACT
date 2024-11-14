@@ -1,26 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 // import { useRef } from "react"; // te permite crear una referencia mutable que puedes actualizar
 import { Movies } from "./components/Movies";
 import { useMovies, useSearch } from "./hooks";
 
 function App() {
-  const [sort , setSort] = useState(false);
+  const [sort, setSort] = useState(false);
   const [search, setSearch, error] = useSearch("");
-  const { movies, getMovies, loading } = useMovies({ search, sort });
-  
+  const { movies, getMovies, loading, debouncedGetMovies } = useMovies({ search, sort });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    getMovies(search);
+    getMovies({ search });
   };
 
   const handleChange = (e) => {
-    setSearch(e.target.value);
+    const newSearch = e.target.value;
+    setSearch(newSearch);
+    debouncedGetMovies(newSearch);
   };
 
   const handleSort = () => {
     setSort(!sort);
-  }
+  };
   return (
     <>
       <header className="header">
@@ -41,11 +43,7 @@ function App() {
 
       <main>
         <h2>Resultados</h2>
-        {
-          loading
-            ? <p>Cargando...</p>
-            : <Movies movies={movies} />
-        }
+        {loading ? <p>Cargando...</p> : <Movies movies={movies} />}
       </main>
     </>
   );
